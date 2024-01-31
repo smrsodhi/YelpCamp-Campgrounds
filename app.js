@@ -6,7 +6,8 @@ const methodOverride = require('method-override')
 const ejsMate = require('ejs-mate')
 const catchAsync = require('./utils/catchAsync')
 const ExpressError = require('./utils/ExpressError')
-const { campgroundSchema } = require('./schemas')
+const { campgroundSchema, reviewSchema } = require('./schemas')
+const Review = require('./models/review')
 
 const app = express()
 
@@ -44,6 +45,19 @@ const validateCampground = function (req, res, next) {
     }
 }
 
+const validateReview = function (req, res, next) {
+    const { error } = reviewSchema.validate(req.body)
+    if (error) {
+        const message = error.details.map(function (element) {
+            return element.message
+        }
+        ).join(',')
+        throw new ExpressError(message, 400)
+    } else {
+        next()
+    }
+}
+
 // HOME
 app.get('/', function (req, res) {
     res.render('home')
@@ -69,7 +83,7 @@ app.post('/campgrounds', validateCampground, catchAsync(async function (req, res
 
 // SHOW
 app.get('/campgrounds/:id', catchAsync(async function (req, res) {
-    const campground = await Campground.findById(req.params.id)
+    const campground = await Campground.findById(req.params.id).populate('reviews')
     res.render('campgrounds/show', { campground })
 }))
 
@@ -91,6 +105,25 @@ app.delete('/campgrounds/:id', catchAsync(async function (req, res) {
     res.redirect('/campgrounds')
 }))
 
+// CREATE REVIEW
+app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async function (req, res) {
+    const campground = await Campground.findById(req.params.id)
+    const review = new Review(req.body.review)
+    campground.reviews.push(review)
+    await review.save()
+    await campground.save()
+    res.redirect(`/campgrounds/${campground._id}`)
+}))
+
+// DESTROY REVIEW
+app.delete('/campgrounds/:campId/reviews/:reviewId', catchAsync(async function (req, res) {
+    const { campId, reviewId } = req.params
+    await Campground.findByIdAndUpdate(campId, {$pull: {reviews: reviewId}})
+    await Review.findByIdAndDelete(reviewId)
+    res.redirect(`/campgrounds/${campId}`)
+}))
+
+// PAGE NOT FOUND
 app.all('*', function (req, res, next) {
     next(new ExpressError('Page Not Found', 404))
 })
