@@ -4,6 +4,7 @@ const ExpressError = require('../utils/ExpressError')
 
 const router = express.Router()
 const catchAsync = require('../utils/catchAsync')
+const { isLoggedIn } = require('../middleware')
 
 const Campground = require('../models/campground')
 const { campgroundSchema } = require('../schemas')
@@ -27,12 +28,12 @@ router.get('/', catchAsync(async function (req, res, next) {
 }))
 
 // NEW
-router.get('/new', function (req, res) {
+router.get('/new', isLoggedIn, function (req, res) {
     res.render('campgrounds/new')
 })
 
 // CREATE
-router.post('/', validateCampground, catchAsync(async function (req, res, next) {
+router.post('/', isLoggedIn, validateCampground, catchAsync(async function (req, res, next) {
     const campground = new Campground(req.body.campground)
     await campground.save()
     req.flash('success', 'Successfully created new campground!')
@@ -50,7 +51,7 @@ router.get('/:id', catchAsync(async function (req, res) {
 }))
 
 // EDIT
-router.get('/:id/edit', catchAsync(async function (req, res) {
+router.get('/:id/edit', isLoggedIn, catchAsync(async function (req, res) {
     const campground = await Campground.findById(req.params.id)
     if (!campground) {
         req.flash('error', 'Cannot find that campground!')
@@ -60,14 +61,14 @@ router.get('/:id/edit', catchAsync(async function (req, res) {
 }))
 
 // UPDATE
-router.put('/:id', validateCampground, catchAsync(async function (req, res) {
+router.put('/:id', isLoggedIn, validateCampground, catchAsync(async function (req, res) {
     const campground = await Campground.findByIdAndUpdate(req.params.id, { ...req.body.campground })
     req.flash('success', 'Successfully updated campground!')
     res.redirect(`/campgrounds/${campground._id}`)
 }))
 
 // DESTROY
-router.delete('/:id', catchAsync(async function (req, res) {
+router.delete('/:id', isLoggedIn, catchAsync(async function (req, res) {
     await Campground.findByIdAndDelete(req.params.id)
     req.flash('success', 'Successfully deleted campground!')
     res.redirect('/campgrounds')
