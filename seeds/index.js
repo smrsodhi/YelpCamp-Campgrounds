@@ -25,7 +25,8 @@ const seedDB = async function () {
             location: `${cities[randomIdx].city}, ${cities[randomIdx].state}`,
             image: 'https://source.unsplash.com/collection/483251',
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique sequi vero suscipit expedita deleniti modi aliquam illo magnam aspernatur esse explicabo ab blanditiis, temporibus ut voluptatem in fugit a placeat.',
-            price
+            price,
+            owner: '65c0de10327e2b9dfd9d5158'
         })
         await campground.save()
     }
