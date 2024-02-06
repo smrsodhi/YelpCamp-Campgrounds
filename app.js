@@ -54,12 +54,6 @@ app.use(function (req, res, next) {
     next()
 })
 
-app.get('/fakeUser', async function(req, res) {
-    const user = new User({email: 'smr@gmail.com', username: 'smr'})
-    const newUser = await User.register(user, 'chicken')
-    res.send(newUser)
-})
-
 // HOME
 app.get('/', function (req, res) {
     res.render('home')
