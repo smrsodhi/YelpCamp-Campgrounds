@@ -29,6 +29,10 @@ module.exports.newLogin = function (req, res) {
 module.exports.createLogin = function (req, res) {
     const redirectUrl = res.locals.redirectUrl || '/campgrounds'
     req.flash('success', 'Welcome back!')
+    console.log(redirectUrl.slice(-14))
+    if (redirectUrl.slice(-15) === '?_method=DELETE') {
+        return res.redirect(307, redirectUrl)
+    }
     res.redirect(redirectUrl)
 }
 
