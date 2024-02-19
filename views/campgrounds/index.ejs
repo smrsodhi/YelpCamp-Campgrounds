@@ -1,12 +1,16 @@
 <% layout('layouts/boilerplate') %>
 
-<h1>All Campgrounds</h1>
+<h1 class="mb-4">All Campgrounds</h1>
 
 <% for (let campground of campgrounds) { %>
     <div class="card mb-3">
         <div class="row">
             <div class="col-md-4">
+                <% if (campground.images[0]) { %>
                 <img src="<%= campground.images[0].url %>" alt="<%= campground.title %>" class="img-fluid">
+                <% } else { %>
+                <img src="/images/not_found.png" class="img-fluid">
+                <% } %>
             </div>
             <div class="col-md-8">
                 <div class="card-body">
