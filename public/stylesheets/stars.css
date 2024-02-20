@@ -196,3 +196,7 @@ screen and (min-resolution: 192dpi) {
         display: none;
     }
 }
+
+.review {
+    margin-top: -0.5rem;
+}
