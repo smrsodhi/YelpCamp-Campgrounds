@@ -50,8 +50,8 @@
                         </div>
                         <div class="mb-3">
                             <% for (let i = 0; i < campground.images.length; i += 2) { %>
-                            <div class="row justify-content-center">
-                                <div class="col-md-6 text-center">
+                            <div class="row">
+                                <div class="col-md-6">
                                     <img src="<%= campground.images[i].thumbnail %>" class="img-thumbnail"
                                         alt="">
                                     <div class="form-check-inline">
@@ -61,7 +61,7 @@
                                     </div>
                                 </div>
                                 <% if (i + 1 < campground.images.length) { %>
-                                <div class="col-md-6 text-center">
+                                <div class="col-md-6">
                                     <img src="<%= campground.images[i + 1].thumbnail %>"
                                         class="img-thumbnail" alt="">
                                     <div class="form-check-inline">

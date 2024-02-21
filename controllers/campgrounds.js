@@ -30,7 +30,6 @@ module.exports.create = async function (req, res, next) {
     })
     campground.owner = req.user._id
     await campground.save()
-    console.log(campground)
     req.flash('success', 'Successfully created new campground!')
     res.redirect(`/campgrounds/${campground._id}`)
 }
@@ -59,6 +58,10 @@ module.exports.edit = async function (req, res) {
 }
 
 module.exports.update = async function (req, res) {
+    const geoData = await geoCoder.forwardGeocode({
+        query: req.body.campground.location,
+        limit: 1
+    }).send()
     const campground = await Campground.findByIdAndUpdate(req.params.id, { ...req.body.campground })
     const images = req.files.map(function (file) {
         return {
@@ -66,6 +69,7 @@ module.exports.update = async function (req, res) {
             filename: file.filename
         }
     })
+    campground.geometry = geoData.body.features[0].geometry
     campground.images.push(...images)
     if (req.body.deleteImages) {
         for (let filename of req.body.deleteImages) {
@@ -79,7 +83,10 @@ module.exports.update = async function (req, res) {
 }
 
 module.exports.destroy = async function (req, res) {
-    await Campground.findByIdAndDelete(req.params.id)
+    const campground = await Campground.findByIdAndDelete(req.params.id)
+    for (let image of campground.images) {
+        await cloudinary.uploader.destroy(image.filename)
+    }
     req.flash('success', 'Successfully deleted campground!')
     res.redirect('/campgrounds')
 }
