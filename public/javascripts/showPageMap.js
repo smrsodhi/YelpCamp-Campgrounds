@@ -1,4 +1,5 @@
 mapboxgl.accessToken = mbxToken;
+
 const map = new mapboxgl.Map({
     container: 'map', // container ID
     style: 'mapbox://styles/mapbox/light-v10', // style URL
@@ -12,8 +13,6 @@ new mapboxgl.Marker()
     .setLngLat(campground.geometry.coordinates)
     .setPopup(
         new mapboxgl.Popup({ offset: 25 })
-            .setHTML(
-                `<h3>${campground.title}</h3>`
-            )
+            .setHTML(`<h6 style="margin: 5px 10px;">${campground.title}</h6>`)
     )
     .addTo(map)

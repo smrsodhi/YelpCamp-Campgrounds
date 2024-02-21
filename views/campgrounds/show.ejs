@@ -1,6 +1,6 @@
 <% layout('layouts/boilerplate') %>
-<link rel="stylesheet" href="/stylesheets/stars.css">
 
+<link rel="stylesheet" href="/stylesheets/stars.css">
 <div class="row mt-5 mb-5">
     <div class="col-5 offset-1">
         <div id="campgroundCarousel" class="carousel slide">
@@ -12,11 +12,13 @@
                 <% }) %>
             </div>
             <% if (campground.images.length > 1) { %>
-            <button class="carousel-control-prev" type="button" data-bs-target="#campgroundCarousel" data-bs-slide="prev">
+            <button class="carousel-control-prev" type="button" data-bs-target="#campgroundCarousel"
+                data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#campgroundCarousel" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#campgroundCarousel"
+                data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
@@ -25,9 +27,7 @@
         <div class="card mb-3">
             <div class="card-body">
                 <h5 class="card-title"><%= campground.title %></h5>
-                <p class="card-text">
-                    <%= campground.description %>
-                </p>
+                <p class="card-text"><%= campground.description %></p>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item text-secondary"><%= campground.location %></li>
@@ -48,10 +48,12 @@
         <div id="map"></div>
         <% if (currentUser) { %>
         <h2 class="mt-3 mb-3">Leave a review!</h2>
-        <form action="/campgrounds/<%= campground._id %>/reviews" method="POST" novalidate class="needs-validation">
+        <form action="/campgrounds/<%= campground._id %>/reviews" method="POST" novalidate
+            class="needs-validation">
             <div>
                 <fieldset class="starability-basic">
-                    <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+                    <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1"
+                        checked aria-label="No rating." />
                     <input type="radio" id="first-rate1" name="review[rating]" value="1" />
                     <label for="first-rate1" title="Terrible">1 star</label>
                     <input type="radio" id="first-rate2" name="review[rating]" value="2" />
@@ -66,10 +68,9 @@
             </div>
             <div class="review mb-3">
                 <label class="form-label" for="body">Review</label>
-                <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
+                <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3"
+                    required></textarea>
+                <div class="valid-feedback">Looks good!</div>
             </div>
             <button class="btn btn-success mb-3">Submit</button>
         </form>
@@ -83,7 +84,8 @@
                 </p>
                 <p class="card-text"><%= review.body %></p>
                 <% if (currentUser && review.author.equals(currentUser._id)) { %>
-                <form action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                <form action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>?_method=DELETE"
+                    method="POST">
                     <button class="btn btn-sm btn-danger">Delete</button>
                 </form>
                 <% } %>
@@ -92,7 +94,6 @@
         <% } %>
     </div>
 </div>
-
 <script>
     const mbxToken = '<%- process.env.MAPBOX_TOKEN %>'
     const campground = <%- JSON.stringify(campground) %>

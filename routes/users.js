@@ -1,10 +1,11 @@
 const express = require('express')
 
-const router = express.Router()
 const catchAsync = require('../utils/catchAsync')
 const passport = require('passport')
-const { storeRedirectUrl } = require('../middleware')
 const users = require('../controllers/users')
+const { storeRedirectUrl } = require('../middleware')
+
+const router = express.Router()
 
 router.route('/register')
     .get(users.newUser)

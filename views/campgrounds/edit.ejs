@@ -2,7 +2,8 @@
 
 <div class="container justify-content-center align-items-center mt-5 mb-5">
     <div class="row">
-        <div class="col-md-6 offset-md-3 <%= campground.images.length ? 'col-xl-6 offset-xl-3' : 'col-xl-4 offset-xl-4' %>">
+        <div
+            class="col-md-6 offset-md-3 <%= campground.images.length ? 'col-xl-6 offset-xl-3' : 'col-xl-4 offset-xl-4' %>">
             <div class="card shadow">
                 <div class="card-body">
                     <h4 class="card-title">Edit Campground</h4>
@@ -12,25 +13,19 @@
                             <label class="form-label" for="title">Title</label>
                             <input class="form-control" type="text" id="title" name="campground[title]"
                                 value="<%= campground.title %>" required>
-                            <div class="valid-feedback">
-                                Looks good!
-                            </div>
+                            <div class="valid-feedback">Looks good!</div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="location">Location</label>
                             <input class="form-control" type="text" id="location" name="campground[location]"
                                 value="<%= campground.location %>" required>
-                            <div class="valid-feedback">
-                                Looks good!
-                            </div>
+                            <div class="valid-feedback">Looks good!</div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="description">Description</label>
                             <textarea class="form-control" type="text" id="description"
                                 name="campground[description]" required><%= campground.description %></textarea>
-                            <div class="valid-feedback">
-                                Looks good!
-                            </div>
+                            <div class="valid-feedback">Looks good!</div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="price">Price</label>
@@ -39,9 +34,7 @@
                                 <input type="text" class="form-control" placeholder="0.00" aria-label="Price"
                                     aria-describedby="price-label" id="price" name="campground[price]"
                                     value="<%= campground.price %>" required>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
+                                <div class="valid-feedback">Looks good!</div>
                             </div>
                         </div>
                         <div class="mb-3">
